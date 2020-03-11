@@ -4,8 +4,6 @@ require('dotenv').config();
 
 const client = new Discord.Client();
 
-const token = 'Njg3Mjk4NTg2MjY5OTc0NTQ1.XmkhRw.EQzgsO2uF2udiNY2bM1XOPR8dzM';
-
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -55,4 +53,4 @@ client.on('message', async (message) => {
   return message.reply('搵唔到隻英阿！');
 });
 
-client.login(token);
+client.login(process.env.CLIENT_TOKEN);
