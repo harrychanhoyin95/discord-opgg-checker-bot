@@ -21,7 +21,9 @@ client.on('message', async (message) => {
     .replace(/\s+/g, '');
 
   // Roll roles
-  rollRole(message, normalizedMessage);
+  if (normalizedMessage.includes('role') || normalizedMessage.includes('roll')) {
+    return rollRole(message);
+  }
 
   // Lulu / Pix case
   if (normalizedMessage.includes('lulu') || normalizedMessage.includes('pix')) {

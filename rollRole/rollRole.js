@@ -12,10 +12,6 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (maxValue - minValue)) + minValue;
 };
 
-const rollRole = (message, normalizedMessage) => {
-  if (normalizedMessage.includes('role') || normalizedMessage.includes('roll')) {
-    return message.reply(`${roles[getRandomInt(0, 5)]}`);
-  }
-};
+const rollRole = (message) => message.reply(`${roles[getRandomInt(0, 5)]}`);
 
 module.exports = rollRole;
