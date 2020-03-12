@@ -4,6 +4,8 @@ require('dotenv').config();
 
 const client = new Discord.Client();
 
+const rollRole = require('./rollRole/rollRole');
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -17,6 +19,9 @@ client.on('message', async (message) => {
     .toLowerCase()
     .split('>')[1]
     .replace(/\s+/g, '');
+
+  // Roll roles
+  rollRole(message, normalizedMessage);
 
   // Lulu / Pix case
   if (normalizedMessage.includes('lulu') || normalizedMessage.includes('pix')) {
