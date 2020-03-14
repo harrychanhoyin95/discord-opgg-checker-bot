@@ -89,8 +89,10 @@ client.on('message', async message => {
   const championModel = new Champion(normalizedMessage);
   const filteredChampions = await championModel.getChampions();
 
-  if (!filteredChampions || filteredChampions.length === 0)
+  if (!filteredChampions || filteredChampions.length === 0) {
     botReply = await parseMessage('not-found');
+    return message.reply(botReply);
+  }
 
   // Find the exact match champion
   const matchedChampion = filteredChampions.find(
