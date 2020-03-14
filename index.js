@@ -1,18 +1,22 @@
 const Discord = require('discord.js');
-const fetch = require('node-fetch');
+const rollRole = require('./rollRole/rollRole');
+const Champion = require('./champion');
 require('dotenv').config();
 
-const client = new Discord.Client();
+const pixYouTube = 'https://www.youtube.com/channel/UCyX_gEJaKTszr8XSnv3Wr1Q';
 
-const rollRole = require('./rollRole/rollRole');
+const client = new Discord.Client();
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', async (message) => {
+client.on('message', async message => {
+  const championModel = new Champion(message);
   const isBot = message.author.bot;
-  const isMentioned = message.mentions.users.some((user) => user.id === '687298586269974545');
+  const isMentioned = message.mentions.users.some(
+    user => user.id === process.env.CLIENT_ID
+  );
   if (isBot || !isMentioned) return;
 
   const normalizedMessage = message.content
@@ -20,44 +24,41 @@ client.on('message', async (message) => {
     .split('>')[1]
     .replace(/\s+/g, '');
 
-  // Roll roles
-  if (normalizedMessage.includes('role') || normalizedMessage.includes('roll')) {
-    return rollRole(message);
+  // Special cases
+  switch (normalizedMessage) {
+    case 'role':
+    case 'roll':
+      return rollRole(message);
+    case 'pix':
+    case 'lulu':
+      return message.reply(`睇下鑽石Lulu點出裝啦！${pixYouTube}`);
+    default:
   }
 
-  // Lulu / Pix case
-  if (normalizedMessage.includes('lulu') || normalizedMessage.includes('pix')) {
-    return message.reply('睇下鑽石Pix點出裝啦！https://www.youtube.com/channel/UCyX_gEJaKTszr8XSnv3Wr1Q');
+  const filteredChampions = await championModel.getChampions(message);
+
+  if (!filteredChampions || filteredChampions.length === 0)
+    return message.reply('搵唔到隻英阿！');
+
+  // Find the exact match champion
+  const matchedChampion = filteredChampions.find(
+    champion => champion.id.toLowerCase() === normalizedMessage
+  );
+
+  if (matchedChampion) {
+    return message.reply(
+      `睇下${matchedChampion.name}點出裝啦！https://www.op.gg/champion/${normalizedMessage}/statistics`
+    );
+  } else {
+    const possibleChampions = filteredChampions.map(
+      (champion, index) => `${index + 1}. ${champion.name}`
+    );
+    return message.reply(
+      `咁多隻搵唔到架，你試下打返佢地全名！\n你岩岩打出黎搵到既result有\n\n${possibleChampions.join(
+        '\n'
+      )}`
+    );
   }
-
-  const LolVersionList = await fetch('https://ddragon.leagueoflegends.com/api/versions.json')
-    .then((results) => results.json())
-    .then((data) => data)
-    .catch((err) => console.log(err));
-  const newestVersion = LolVersionList[0];
-
-  const championList = await fetch(`http://ddragon.leagueoflegends.com/cdn/${newestVersion}/data/en_US/champion.json`)
-    .then((results) => results.json())
-    .then((resultsJson) => resultsJson.data)
-    .then((dataList) => Object.keys(dataList))
-    .then((keyList) => keyList.map((key) => key.toLowerCase()))
-    .catch((err) => console.log(err));
-
-  const isExactMatch = championList.includes(normalizedMessage);
-  const PartialMatchList = championList
-    .filter((champion) => champion.includes(normalizedMessage));
-
-  // Generic case
-  if (isExactMatch) {
-    return message.reply(`睇下點出裝啦！https://www.op.gg/champion/${normalizedMessage}/statistics`);
-  }
-
-  if (PartialMatchList.length > 0) {
-    const indexedPartialMatchList = PartialMatchList.map((champ, index) => `${index + 1}. ${champ.replace(/^\w/, (c) => c.toUpperCase())}`);
-    return message.reply(`咁多隻搵唔到架，你試下打返佢地全名！\n你岩岩打出黎搵到既result有\n\n${indexedPartialMatchList.join('\n')}`);
-  }
-
-  return message.reply('搵唔到隻英阿！');
 });
 
-client.login(process.env.CLIENT_TOKEN);
+client.login(process.env.CLIENT_TOKEN).catch();

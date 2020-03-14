@@ -1,10 +1,4 @@
-const roles = [
-  'Top',
-  'Jungle',
-  'Support',
-  'AD',
-  'Middle',
-];
+const roles = ['Top', 'Jungle', 'Support', 'AD', 'Middle'];
 
 const getRandomInt = (min, max) => {
   const minValue = Math.ceil(min);
@@ -12,6 +6,7 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (maxValue - minValue)) + minValue;
 };
 
-const rollRole = (message) => message.reply(`${roles[getRandomInt(0, 5)]}`);
+const rollRole = message =>
+  message.reply(`${roles[getRandomInt(0, roles.length)]}`);
 
 module.exports = rollRole;
