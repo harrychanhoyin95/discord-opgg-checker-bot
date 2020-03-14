@@ -6,7 +6,6 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (maxValue - minValue)) + minValue;
 };
 
-const rollRole = message =>
-  message.reply(`${roles[getRandomInt(0, roles.length)]}`);
+const rollRole = () => `${roles[getRandomInt(0, roles.length)]}`;
 
 module.exports = rollRole;
