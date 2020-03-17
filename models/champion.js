@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const championUrl = require('../config');
+const { championUrl } = require('../config');
 
 const fallBackVersion = '10.5.1';
 

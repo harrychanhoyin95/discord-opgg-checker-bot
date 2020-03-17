@@ -1,7 +1,8 @@
 const Discord = require('discord.js');
+const Logger = require('./storage/logger');
 const rollRole = require('./rollRole/rollRole');
 const Champion = require('./models/champion');
-const championUrl = require('./config');
+const { championUrl } = require('./config');
 require('dotenv').config();
 
 const pixYouTube = 'https://www.youtube.com/channel/UCyX_gEJaKTszr8XSnv3Wr1Q';
@@ -50,6 +51,7 @@ const parseMessage = async (type, champion) => {
 };
 
 const client = new Discord.Client();
+Logger.init();
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -114,5 +116,5 @@ client.on('message', async message => {
 
 client
   .login(process.env.CLIENT_TOKEN)
-  .then(() => 'Login Successfully')
-  .catch(err => console.error(err));
+  .then(() => Logger.info('login-successfully'))
+  .catch(err => Logger.error('login-failed', err));
