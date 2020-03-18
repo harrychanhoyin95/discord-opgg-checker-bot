@@ -1,18 +1,18 @@
 const fetch = require('node-fetch');
-const { championUrl } = require('../config');
+const Logger = require('../storage/logger');
 
 const fallBackVersion = '10.5.1';
 
-module.exports = class Champions {
-  constructor(message) {
-    this.message = message;
+module.exports = class ChampionsModel {
+  constructor(storage) {
+    this.storage = storage;
   }
 
   // Get latest LOL version number
-  static async getLatestVersionNumber() {
+  async getLatestVersionNumber() {
     try {
       const lolVersionListResponse = await fetch(
-        `${championUrl.api}/versions.json`
+        `${this.storage.config.ddragon.apiUrl}/versions.json`
       );
       const lolVersionList = await lolVersionListResponse.json();
       return (
@@ -22,25 +22,27 @@ module.exports = class Champions {
         fallBackVersion
       );
     } catch (err) {
-      console.log(err);
+      Logger.error('get-latest-version-error', err, null);
     }
   }
 
   // Get champions by message
-  async getChampions() {
+  async genChampions(author, message) {
     try {
-      const latestVersion = await Champions.getLatestVersionNumber();
+      const latestVersion = await this.getLatestVersionNumber();
       const championResponse = await fetch(
-        `${championUrl.cdn}/${latestVersion}/data/en_US/champion.json`
+        `${this.storage.config.ddragon.cdnUrl}/${latestVersion}/data/en_US/champion.json`
       );
       const champions = await championResponse.json();
+
       if (!champions.data || champions.data.length === 0) return [];
       const { data: championList } = champions;
+
       return Object.values(championList).filter(champion => {
-        return champion.id.toLowerCase().startsWith(this.message);
+        return champion.id.toLowerCase().startsWith(message);
       });
     } catch (err) {
-      console.log(err);
+      Logger.error('gen-champions-error', err, author, { message });
     }
   }
 };

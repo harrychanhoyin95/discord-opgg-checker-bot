@@ -4,7 +4,7 @@ const { combine, printf, timestamp: timeStampFormatter } = format;
 
 module.exports = class Logger {
   // Initialize the logger
-  static init() {
+  static async init() {
     this.logger = createLogger({});
     const customFormat = printf(
       ({ level, message, timestamp, ...rest }) =>
@@ -20,6 +20,8 @@ module.exports = class Logger {
       this.logger.add(consoleTransport);
       this.logger.exceptions.handle(consoleTransport);
     }
+
+    return true;
   }
 
   // Logs general info

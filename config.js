@@ -1,10 +1,11 @@
-const baseUrl = 'https://ddragon.leagueoflegends.com';
-
 const config = {
   prefix: '!',
-  championUrl: {
-    cdn: `${baseUrl}/cdn`,
-    api: `${baseUrl}/api`,
+  ddragon: {
+    cdnUrl: `https://ddragon.leagueoflegends.com/cdn`,
+    apiUrl: `https://ddragon.leagueoflegends.com/api`,
+  },
+  opGG: {
+    statUrl: name => `https://www.op.gg/champion/${name}/statistics`,
   },
 };
 
