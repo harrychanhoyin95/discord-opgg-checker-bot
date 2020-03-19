@@ -1,30 +1,21 @@
-const Discord = require('discord.js');
-const fs = require('fs');
-const StorageBuilder = require('./storage/storage-builder');
-const Logger = require('./storage/logger');
-const Models = require('./models/_models');
-const config = require('./config');
+import { IModels, Models } from '@models/_models';
+import { Shared } from '@models/_shared/_shared_models';
+import { Logger } from '@storage/logger';
+import { StorageBuilder } from '@storage/storage-builder';
+import { ICommand } from '@typings/i-typings';
+import Discord from 'discord.js';
+import config from './config';
 
 require('dotenv').config();
 
-let models = null;
+let models: IModels;
+let commands: Discord.Collection<string, ICommand>;
 const storage = StorageBuilder.getStorage(config);
 const client = new Discord.Client();
-client.commands = new Discord.Collection();
-
-// Reads command files
-const commandFiles = fs
-  .readdirSync('./commands')
-  .filter(file => file.endsWith('.js'));
-
-// Setup available commands
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command);
-}
 
 client.once('ready', () => {
   models = Models.getModels(storage);
+  commands = Shared.commands.getCommands();
   Logger.info(`Logged in as ${client.user.tag}!`);
 });
 
@@ -38,10 +29,10 @@ client.on('message', async message => {
     .split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if (!client.commands.has(command)) return;
+  if (!commands.has(command)) return;
 
   try {
-    client.commands.get(command).execute(message, args, models);
+    commands.get(command).execute(message, args, models);
   } catch (error) {
     Logger.error('command-error', error, message.author, { command, args });
     return message.reply('There was an error trying to execute that command!');

@@ -1,4 +1,5 @@
-const Logger = require('../storage/logger');
+import { Logger } from '@storage/logger';
+import { ICommand } from '@typings/i-typings';
 
 const roles = ['Top', 'Jungle', 'Support', 'AD', 'Middle'];
 const getRandomInt = (min, max) => {
@@ -7,7 +8,7 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (maxValue - minValue)) + minValue;
 };
 
-const randomRole = {
+export const randomRole: ICommand = {
   name: 'randomrole',
   description: 'Get a random role',
   execute(message, _args, _models) {
@@ -16,5 +17,3 @@ const randomRole = {
     return message.channel.send(role);
   },
 };
-
-module.exports = randomRole;

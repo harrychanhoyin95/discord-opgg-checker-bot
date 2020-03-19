@@ -4,14 +4,25 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --inspect index.js"
+    "start": "babel-node src/index.ts --extensions \".ts\",\".json\"",
+    "tsc": "tsc --noEmit --skipLibCheck",
+    "build": "yarn tsc && babel src -d dist --extensions \".ts\" --copy-files",
+    "start:watch": "nodemon --exec yarn start"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/node": "^13.9.2",
+    "babel-plugin-module-resolver": "^4.0.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "discord.js": "^12.0.2",

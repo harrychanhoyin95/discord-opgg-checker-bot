@@ -1,4 +1,6 @@
-const config = {
+import { IConfig } from '@typings/i-typings';
+
+const config: IConfig = {
   prefix: '!',
   ddragon: {
     cdnUrl: `https://ddragon.leagueoflegends.com/cdn`,
@@ -9,4 +11,4 @@ const config = {
   },
 };
 
-module.exports = config;
+export default config;

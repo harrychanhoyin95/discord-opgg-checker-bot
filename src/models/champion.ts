@@ -1,15 +1,26 @@
-const fetch = require('node-fetch');
-const Logger = require('../storage/logger');
+import { Logger } from '@storage/logger';
+import { IGlobalStorage } from '@typings/i-typings';
+import { User } from 'discord.js';
+import fetch from 'node-fetch';
 
 const fallBackVersion = '10.5.1';
 
-module.exports = class ChampionsModel {
-  constructor(storage) {
+export interface Champion {
+  id: string;
+  name: string;
+  title: string;
+  image: {
+    full: string;
+  };
+}
+
+export class ChampionsModel {
+  constructor(private storage: IGlobalStorage) {
     this.storage = storage;
   }
 
   // Get latest LOL version number
-  async getLatestVersionNumber() {
+  async getLatestVersionNumber(): Promise<string> {
     try {
       const lolVersionListResponse = await fetch(
         `${this.storage.config.ddragon.apiUrl}/versions.json`
@@ -27,7 +38,7 @@ module.exports = class ChampionsModel {
   }
 
   // Get champions by message
-  async genChampions(author, message) {
+  async genChampions(author: User, message: string): Promise<Champion[]> {
     try {
       const latestVersion = await this.getLatestVersionNumber();
       const championResponse = await fetch(
@@ -36,13 +47,13 @@ module.exports = class ChampionsModel {
       const champions = await championResponse.json();
 
       if (!champions.data || champions.data.length === 0) return [];
-      const { data: championList } = champions;
+      const { data }: { data: Champion[] } = champions;
 
-      return Object.values(championList).filter(champion => {
+      return Object.values(data).filter(champion => {
         return champion.id.toLowerCase().startsWith(message);
       });
     } catch (err) {
       Logger.error('gen-champions-error', err, author, { message });
     }
   }
-};
+}

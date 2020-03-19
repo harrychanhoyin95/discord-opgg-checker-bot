@@ -1,22 +1,29 @@
+import { IGlobalStorage } from '@typings/i-typings';
+import { User } from 'discord.js';
+import { Champion, ChampionsModel } from './champion';
+
 const pixYouTube = 'https://www.youtube.com/channel/UCyX_gEJaKTszr8XSnv3Wr1Q';
 
-module.exports = class Gear {
-  constructor(storage, championModel) {
+export class GearModel {
+  constructor(
+    private storage: IGlobalStorage,
+    private championModel: ChampionsModel
+  ) {
     this.storage = storage;
     this.championModel = championModel;
   }
 
   // Generate the gear message
-  async gen(author, message) {
+  async gen(author: User, message: string) {
     const specialCases = /^((pix)|(lulu))$/g;
     if (message.match(specialCases)) {
-      return this.parseMessage('pix');
+      return await this.parseMessage('pix');
     }
 
     const champions = await this.championModel.genChampions(author, message);
 
     if (!champions || champions.length === 0)
-      return this.parseMessage('not-found');
+      return await this.parseMessage('not-found');
 
     // Find the exact match champion
     const matchedChampion = champions.find(
@@ -24,17 +31,17 @@ module.exports = class Gear {
     );
 
     if (matchedChampion) {
-      return this.parseMessage('found', matchedChampion);
+      return await this.parseMessage('found', matchedChampion);
     } else {
       const possibleChampions = champions.map(
         (champion, index) => `${index + 1}. ${champion.name}`
       );
-      const firstPart = this.parseMessage('multiple');
+      const firstPart = await this.parseMessage('multiple');
       return `${firstPart}${possibleChampions.join('\n')}`;
     }
   }
 
-  async parseMessage(messageType, champion) {
+  private async parseMessage(messageType: string, champion?: Champion) {
     const latestVersion = await this.championModel.getLatestVersionNumber();
     let content = null;
     switch (messageType) {
@@ -66,8 +73,9 @@ module.exports = class Gear {
         };
         break;
       default:
+        content = 'Gag';
     }
 
     return content;
   }
-};
+}

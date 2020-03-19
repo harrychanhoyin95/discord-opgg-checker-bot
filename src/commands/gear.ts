@@ -1,6 +1,7 @@
-const Logger = require('../storage/logger');
+import { Logger } from '@storage/logger';
+import { ICommand } from '@typings/i-typings';
 
-const gear = {
+export const gear: ICommand = {
   name: 'gear',
   description: 'Gets the recommended gears of a champion',
   async execute(message, args, models) {
@@ -9,5 +10,3 @@ const gear = {
     return message.channel.send(reply);
   },
 };
-
-module.exports = gear;

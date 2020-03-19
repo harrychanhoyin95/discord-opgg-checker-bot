@@ -1,8 +1,12 @@
-const { createLogger, transports, format } = require('winston');
+import { User } from 'discord.js';
+import winston from 'winston';
+const { createLogger, transports, format } = winston;
 
 const { combine, printf, timestamp: timeStampFormatter } = format;
 
-module.exports = class Logger {
+export class Logger {
+  private static logger: winston.Logger;
+
   // Initialize the logger
   static async init() {
     this.logger = createLogger({});
@@ -25,7 +29,7 @@ module.exports = class Logger {
   }
 
   // Logs general info
-  static info(message, author = null, extraFields = null) {
+  static info(message: string, author?: User, extraFields?: object) {
     this.logger.info(
       message,
       Logger.mergeLoggerObjects(null, author, extraFields)
@@ -33,7 +37,12 @@ module.exports = class Logger {
   }
 
   // Logs error
-  static error(message, errorStack, author = null, extraFields = null) {
+  static error(
+    message: string,
+    errorStack?: object,
+    author?: User,
+    extraFields?: object
+  ) {
     this.logger.error(
       message,
       Logger.mergeLoggerObjects(errorStack, author, extraFields)
@@ -42,9 +51,9 @@ module.exports = class Logger {
 
   // Merge author, error and custom properties for logger to print as 'rest'
   static mergeLoggerObjects(
-    errorStack = null,
-    author = null,
-    extraFields = null
+    errorStack: object,
+    author: User,
+    extraFields: object
   ) {
     const authorObj = author ? { author } : null;
     const extraFieldsObj = extraFields || {};
@@ -60,4 +69,4 @@ module.exports = class Logger {
       ? null
       : mergeLoggerObjects;
   }
-};
+}

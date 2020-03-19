@@ -1,12 +1,14 @@
-const Logger = require('../storage/logger');
+import { Shared } from '@models/_shared/_shared_models';
+import { Logger } from '@storage/logger';
+import { ICommand } from '@typings/i-typings';
 
-const help = {
+export const help: ICommand = {
   name: 'help',
   description: 'List out available commands',
   execute(message, _args, _models) {
-    const listOfCommands = Array.from(message.client.commands)
+    const listOfCommands = Array.from(Shared.commands.getCommands())
       .map(([name, config]) => `${name} - ${config.description}`)
-      .sort((a, b) => a - b);
+      .sort((a: any, b: any) => a - b);
 
     Logger.info('help-command');
 
@@ -15,5 +17,3 @@ const help = {
     );
   },
 };
-
-module.exports = help;
