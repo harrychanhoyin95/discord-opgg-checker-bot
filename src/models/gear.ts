@@ -41,7 +41,10 @@ export class GearModel {
     }
   }
 
-  private async parseMessage(messageType: string, champion?: Champion): any {
+  private async parseMessage(
+    messageType: string,
+    champion?: Champion,
+  ): Promise<any> {
     const latestVersion = await this.championModel.getLatestVersionNumber();
     let content = null;
     switch (messageType) {

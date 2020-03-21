@@ -11,7 +11,7 @@
     "noUnusedParameters": true,
     "outDir": "dist",
     "isolatedModules": true,
-    "declaration": true,
+    "declaration": false,
     "typeRoots": ["node_modules/@types"],
     "baseUrl": "./src",
     "esModuleInterop": true,

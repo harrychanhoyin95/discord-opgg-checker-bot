@@ -8,8 +8,8 @@
     "start:watch": "nodemon --exec babel-node src/index.ts --extensions \".ts\"",
     "build": "babel src --out-dir dist --extensions \".ts\" --copy-files",
     "others": "=================================================================",
-    "lint": "eslint 'src/**/*.{js,ts}' --quiet",
-    "lint:fix": "eslint 'src/**/*.{js,ts}' --fix",
+    "lint": "eslint src/**/*.{js,ts} --quiet",
+    "lint:fix": "eslint src/**/*.{js,ts} --fix",
     "tsc": "tsc --noEmit --skipLibCheck",
     "prettier": "prettier --check **/*.ts **/*.json"
   },
@@ -47,7 +47,7 @@
     "hooks": {
       "post-merge": "yarn install --frozen-lockfile",
       "post-rebase": "yarn install",
-      "pre-commit": "prettier **/*.ts --write && eslint 'src/**/*.ts' --fix",
+      "pre-commit": "prettier **/*.ts --write && eslint src/**/*.ts --fix",
       "pre-push": "yarn tsc && yarn lint"
     }
   }

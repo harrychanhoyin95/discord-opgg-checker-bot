@@ -15,6 +15,7 @@ export class Commands {
     for (const file of commandFiles) {
       const command: {
         [key: string]: ICommand;
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
       } = require(`../../commands/${file}`);
       const [[name, commandInfo]] = Object.entries(command);
       commands.set(name.toLowerCase(), commandInfo);

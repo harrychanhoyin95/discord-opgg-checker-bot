@@ -13,7 +13,7 @@ export const help: ICommand = {
     Logger.info('help-command');
 
     return message.channel.send(
-      `List of commands:\n--------------------\n${listOfCommands.join('\n')}`
+      `List of commands:\n--------------------\n${listOfCommands.join('\n')}`,
     );
   },
 };

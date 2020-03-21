@@ -22,6 +22,6 @@ export interface ICommand {
   execute(
     message: Discord.Message | Discord.PartialMessage,
     args: string[],
-    models: IModels
+    models: IModels,
   ): void;
 }

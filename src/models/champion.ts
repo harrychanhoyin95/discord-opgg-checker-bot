@@ -23,7 +23,7 @@ export class ChampionsModel {
   async getLatestVersionNumber(): Promise<string> {
     try {
       const lolVersionListResponse = await fetch(
-        `${this.storage.config.ddragon.apiUrl}/versions.json`
+        `${this.storage.config.ddragon.apiUrl}/versions.json`,
       );
       const lolVersionList = await lolVersionListResponse.json();
       return (
@@ -42,14 +42,14 @@ export class ChampionsModel {
     try {
       const latestVersion = await this.getLatestVersionNumber();
       const championResponse = await fetch(
-        `${this.storage.config.ddragon.cdnUrl}/${latestVersion}/data/en_US/champion.json`
+        `${this.storage.config.ddragon.cdnUrl}/${latestVersion}/data/en_US/champion.json`,
       );
       const champions = await championResponse.json();
 
       if (!champions.data || champions.data.length === 0) return [];
       const { data }: { data: Champion[] } = champions;
 
-      return Object.values(data).filter(champion => {
+      return Object.values(data).filter((champion) => {
         return champion.id.toLowerCase().startsWith(message);
       });
     } catch (err) {
