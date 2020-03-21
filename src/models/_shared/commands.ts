@@ -1,24 +1,23 @@
-import { ICommand } from '@typings/i-typings';
 import Discord from 'discord.js';
 import fs from 'fs';
-import path from 'path';
+import { ICommand } from '~typings/i-typings';
 
 export class Commands {
-  static getCommands() {
+  static getCommands(): Discord.Collection<string, ICommand> {
     const commands = new Discord.Collection<string, ICommand>();
 
     // Reads command files
     const commandFiles = fs
-      .readdirSync(path.resolve(process.cwd(), './src/commands'))
-      .filter(file => file.endsWith('.js') || file.endsWith('.ts'));
+      .readdirSync(`${__dirname}/../../commands`)
+      .filter((file) => file.endsWith('.js') || file.endsWith('.ts'));
 
     // Setup available commands
     for (const file of commandFiles) {
       const command: {
         [key: string]: ICommand;
-      } = require(path.resolve(process.cwd(), `./src/commands/${file}`));
+      } = require(`../../commands/${file}`);
       const [[name, commandInfo]] = Object.entries(command);
-      commands.set(name, commandInfo);
+      commands.set(name.toLowerCase(), commandInfo);
     }
 
     return commands;

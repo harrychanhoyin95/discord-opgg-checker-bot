@@ -1,20 +1,20 @@
-import { IGlobalStorage } from '@typings/i-typings';
 import { User } from 'discord.js';
+import { IStorage } from '~typings/i-typings';
 import { Champion, ChampionsModel } from './champion';
 
 const pixYouTube = 'https://www.youtube.com/channel/UCyX_gEJaKTszr8XSnv3Wr1Q';
 
 export class GearModel {
   constructor(
-    private storage: IGlobalStorage,
-    private championModel: ChampionsModel
+    private storage: IStorage,
+    private championModel: ChampionsModel,
   ) {
     this.storage = storage;
     this.championModel = championModel;
   }
 
   // Generate the gear message
-  async gen(author: User, message: string) {
+  async gen(author: User, message: string): Promise<any> {
     const specialCases = /^((pix)|(lulu))$/g;
     if (message.match(specialCases)) {
       return await this.parseMessage('pix');
@@ -27,21 +27,21 @@ export class GearModel {
 
     // Find the exact match champion
     const matchedChampion = champions.find(
-      champion => champion.id.toLowerCase() === message
+      (champion) => champion.id.toLowerCase() === message,
     );
 
     if (matchedChampion) {
       return await this.parseMessage('found', matchedChampion);
     } else {
       const possibleChampions = champions.map(
-        (champion, index) => `${index + 1}. ${champion.name}`
+        (champion, index) => `${index + 1}. ${champion.name}`,
       );
       const firstPart = await this.parseMessage('multiple');
       return `${firstPart}${possibleChampions.join('\n')}`;
     }
   }
 
-  private async parseMessage(messageType: string, champion?: Champion) {
+  private async parseMessage(messageType: string, champion?: Champion): any {
     const latestVersion = await this.championModel.getLatestVersionNumber();
     let content = null;
     switch (messageType) {

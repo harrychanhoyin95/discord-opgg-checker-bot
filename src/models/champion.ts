@@ -1,7 +1,7 @@
-import { Logger } from '@storage/logger';
-import { IGlobalStorage } from '@typings/i-typings';
 import { User } from 'discord.js';
 import fetch from 'node-fetch';
+import { Logger } from '~storage/logger';
+import { IStorage } from '~typings/i-typings';
 
 const fallBackVersion = '10.5.1';
 
@@ -15,7 +15,7 @@ export interface Champion {
 }
 
 export class ChampionsModel {
-  constructor(private storage: IGlobalStorage) {
+  constructor(private storage: IStorage) {
     this.storage = storage;
   }
 

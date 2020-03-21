@@ -1,6 +1,6 @@
-import { Shared } from '@models/_shared/_shared_models';
-import { Logger } from '@storage/logger';
-import { ICommand } from '@typings/i-typings';
+import { Shared } from '~models/_shared/_shared_models';
+import { Logger } from '~storage/logger';
+import { ICommand } from '~typings/i-typings';
 
 export const help: ICommand = {
   name: 'help',

@@ -1,5 +1,5 @@
-import { Logger } from '@storage/logger';
-import { ICommand } from '@typings/i-typings';
+import { Logger } from '~storage/logger';
+import { ICommand } from '~typings/i-typings';
 
 export const gear: ICommand = {
   name: 'gear',

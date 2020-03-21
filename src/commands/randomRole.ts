@@ -1,8 +1,8 @@
-import { Logger } from '@storage/logger';
-import { ICommand } from '@typings/i-typings';
+import { Logger } from '~storage/logger';
+import { ICommand } from '~typings/i-typings';
 
 const roles = ['Top', 'Jungle', 'Support', 'AD', 'Middle'];
-const getRandomInt = (min, max) => {
+const getRandomInt = (min, max): number => {
   const minValue = Math.ceil(min);
   const maxValue = Math.floor(max);
   return Math.floor(Math.random() * (maxValue - minValue)) + minValue;

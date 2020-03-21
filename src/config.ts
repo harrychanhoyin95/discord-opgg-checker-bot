@@ -1,4 +1,5 @@
-import { IConfig } from '@typings/i-typings';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { IConfig } from '~typings/i-typings';
 
 const config: IConfig = {
   prefix: '!',
@@ -7,7 +8,7 @@ const config: IConfig = {
     apiUrl: `https://ddragon.leagueoflegends.com/api`,
   },
   opGG: {
-    statUrl: name => `https://www.op.gg/champion/${name}/statistics`,
+    statUrl: (name) => `https://www.op.gg/champion/${name}/statistics`,
   },
 };
 

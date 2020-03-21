@@ -1,8 +1,8 @@
-import { Logger } from '@storage/logger';
-import { IGlobalStorage } from '@typings/i-typings';
+import { Logger } from '~storage/logger';
+import { IStorage } from '~typings/i-typings';
 
 export class StorageBuilder {
-  static getStorage(config): IGlobalStorage {
+  static getStorage(config): IStorage {
     const storage: any = {};
 
     storage.config = config;

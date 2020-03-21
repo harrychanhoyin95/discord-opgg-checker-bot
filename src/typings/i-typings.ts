@@ -1,7 +1,7 @@
-import { IModels } from '@models/_models';
 import Discord from 'discord.js';
+import { IModels } from '~models/_models';
 
-export interface IGlobalStorage {
+export interface IStorage {
   config: IConfig;
 }
 

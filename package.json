@@ -1,27 +1,37 @@
 {
   "name": "opggchecker",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "babel-node src/index.ts --extensions \".ts\",\".json\"",
+    "start": "node dist/index.js",
+    "start:watch": "nodemon --exec babel-node src/index.ts --extensions \".ts\"",
+    "build": "babel src --out-dir dist --extensions \".ts\" --copy-files",
+    "others": "=================================================================",
+    "lint": "eslint 'src/**/*.{js,ts}' --quiet",
+    "lint:fix": "eslint 'src/**/*.{js,ts}' --fix",
     "tsc": "tsc --noEmit --skipLibCheck",
-    "build": "yarn tsc && babel src -d dist --extensions \".ts\" --copy-files",
-    "start:watch": "nodemon --exec yarn start"
+    "prettier": "prettier --check **/*.ts **/*.json"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.7",
     "@babel/node": "^7.8.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.9.0",
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-typescript": "^7.8.3",
     "@types/node": "^13.9.2",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
+    "husky": "^4.2.3",
     "nodemon": "^2.0.2",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
@@ -31,6 +41,14 @@
     "winston": "^3.2.1"
   },
   "engines": {
-    "node": "12.16.1"
+    "node": ">=10.x"
+  },
+  "husky": {
+    "hooks": {
+      "post-merge": "yarn install --frozen-lockfile",
+      "post-rebase": "yarn install",
+      "pre-commit": "prettier **/*.ts --write && eslint 'src/**/*.ts' --fix",
+      "pre-push": "yarn tsc && yarn lint"
+    }
   }
 }

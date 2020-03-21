@@ -1,4 +1,4 @@
-import { IGlobalStorage } from '@typings/i-typings';
+import { IStorage } from '~typings/i-typings';
 import { ChampionsModel } from './champion';
 import { GearModel } from './gear';
 
@@ -8,7 +8,7 @@ export interface IModels {
 }
 
 export class Models {
-  static getModels(storage: IGlobalStorage): IModels {
+  static getModels(storage: IStorage): IModels {
     const champions = new ChampionsModel(storage);
     const gear = new GearModel(storage, champions);
 
