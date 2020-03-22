@@ -13,6 +13,7 @@ const commands = Shared.commands.getCommands();
 const client = new Discord.Client();
 
 client.once('ready', () => {
+  // Setup models with storage configs
   models = Models.getModels(storage);
   Logger.info(`Logged in as ${client.user.tag}!`);
 });

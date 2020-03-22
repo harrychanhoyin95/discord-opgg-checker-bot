@@ -3,7 +3,7 @@ import { ICommand } from '~typings/i-typings';
 import * as commandFiles from '../../commands/_commands';
 
 /**
- * Setups all available commands
+ * Setup all available commands
  * @class Commands
  */
 export class Commands {

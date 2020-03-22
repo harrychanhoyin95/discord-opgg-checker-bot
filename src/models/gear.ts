@@ -15,17 +15,17 @@ export class GearModel {
 
   // Generate the gear message
   async gen(author: User, message: string): Promise<any> {
-    if (!message) return await this.parseMessage('empty');
+    if (!message) return this.parseMessage('empty');
 
     const specialCases = /^((pix)|(lulu))$/g;
     if (message.match(specialCases)) {
-      return await this.parseMessage('pix');
+      return this.parseMessage('pix');
     }
 
     const champions = await this.championModel.genChampions(author, message);
 
     if (!champions || champions.length === 0)
-      return await this.parseMessage('not-found');
+      return this.parseMessage('not-found');
 
     // Find the exact match champion
     const matchedChampion = champions.find(
@@ -33,22 +33,23 @@ export class GearModel {
     );
 
     if (matchedChampion) {
-      return await this.parseMessage('found', matchedChampion);
+      const latestVersion = await this.championModel.getLatestVersionNumber();
+      return this.parseMessage('found', matchedChampion, latestVersion);
     } else {
       const possibleChampions = champions.map(
         (champion, index) => `${index + 1}. ${champion.name}`,
       );
-      const firstPart = await this.parseMessage('multiple');
+      const firstPart = this.parseMessage('multiple');
       return `${firstPart}${possibleChampions.join('\n')}`;
     }
   }
 
   // Parse message by message type
-  private async parseMessage(
+  private parseMessage(
     messageType: string,
     champion?: Champion,
+    version?: string,
   ): Promise<any> {
-    const latestVersion = await this.championModel.getLatestVersionNumber();
     let content = null;
     switch (messageType) {
       case 'empty':
@@ -72,7 +73,7 @@ export class GearModel {
             url: this.storage.config.opGG.statUrl(champion.name.toLowerCase()),
             description: `睇下${champion.name}點出裝啦`,
             thumbnail: {
-              url: `${this.storage.config.ddragon.cdnUrl}/${latestVersion}/img/champion/${champion.image.full}`,
+              url: `${this.storage.config.ddragon.cdnUrl}/${version}/img/champion/${champion.image.full}`,
             },
             timestamp: new Date(),
             footer: {

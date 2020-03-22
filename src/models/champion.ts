@@ -19,24 +19,6 @@ export class ChampionsModel {
     this.storage = storage;
   }
 
-  // Get latest LOL version number
-  async getLatestVersionNumber(): Promise<string> {
-    try {
-      const lolVersionListResponse = await fetch(
-        `${this.storage.config.ddragon.apiUrl}/versions.json`,
-      );
-      const lolVersionList = await lolVersionListResponse.json();
-      return (
-        (lolVersionList.data &&
-          lolVersionList.data.length > 0 &&
-          lolVersionList.data[0]) ||
-        fallBackVersion
-      );
-    } catch (err) {
-      Logger.error('get-latest-version-error', err, null);
-    }
-  }
-
   // Get champions by message
   async genChampions(author: User, message: string): Promise<Champion[]> {
     try {
@@ -54,6 +36,24 @@ export class ChampionsModel {
       });
     } catch (err) {
       Logger.error('gen-champions-error', err, author, { message });
+    }
+  }
+
+  // Get latest LOL version number
+  async getLatestVersionNumber(): Promise<string> {
+    try {
+      const lolVersionListResponse = await fetch(
+        `${this.storage.config.ddragon.apiUrl}/versions.json`,
+      );
+      const lolVersionList = await lolVersionListResponse.json();
+      return (
+        (lolVersionList.data &&
+          lolVersionList.data.length > 0 &&
+          lolVersionList.data[0]) ||
+        fallBackVersion
+      );
+    } catch (err) {
+      Logger.error('get-latest-version-error', err, null);
     }
   }
 }

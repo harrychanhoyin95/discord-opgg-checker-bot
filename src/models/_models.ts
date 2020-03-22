@@ -9,6 +9,7 @@ export interface IModels {
 
 export class Models {
   static getModels(storage: IStorage): IModels {
+    // Inject dependencies to each model as needed
     const champions = new ChampionsModel(storage);
     const gear = new GearModel(storage, champions);
 
