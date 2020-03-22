@@ -7,8 +7,9 @@ export class StorageBuilder {
 
     storage.config = config;
 
-    Logger.init();
-    Logger.info('Initialized Logger');
+    Logger.init().then(() => {
+      Logger.info('Initialized Logger');
+    });
 
     return {
       ...storage,

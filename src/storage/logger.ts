@@ -21,10 +21,8 @@ export class Logger {
       format: combine(timeStampFormatter(), customFormat),
     });
 
-    if (process.env.NODE_ENV !== 'production') {
-      this.logger.add(consoleTransport);
-      this.logger.exceptions.handle(consoleTransport);
-    }
+    this.logger.add(consoleTransport);
+    this.logger.exceptions.handle(consoleTransport);
 
     return true;
   }

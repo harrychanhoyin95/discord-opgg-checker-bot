@@ -15,6 +15,8 @@ export class GearModel {
 
   // Generate the gear message
   async gen(author: User, message: string): Promise<any> {
+    if (!message) return await this.parseMessage('empty');
+
     const specialCases = /^((pix)|(lulu))$/g;
     if (message.match(specialCases)) {
       return await this.parseMessage('pix');
@@ -48,6 +50,9 @@ export class GearModel {
     const latestVersion = await this.championModel.getLatestVersionNumber();
     let content = null;
     switch (messageType) {
+      case 'empty':
+        content = '試下打啲野...';
+        break;
       case 'pix':
         content = `睇下鑽石Lulu點出裝啦！${pixYouTube}`;
         break;
