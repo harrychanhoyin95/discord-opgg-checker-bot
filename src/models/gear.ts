@@ -43,6 +43,7 @@ export class GearModel {
     }
   }
 
+  // Parse message by message type
   private async parseMessage(
     messageType: string,
     champion?: Champion,

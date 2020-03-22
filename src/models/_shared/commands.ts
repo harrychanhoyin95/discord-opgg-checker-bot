@@ -2,6 +2,10 @@ import Discord from 'discord.js';
 import { ICommand } from '~typings/i-typings';
 import * as commandFiles from '../../commands/_commands';
 
+/**
+ * Setups all available commands
+ * @class Commands
+ */
 export class Commands {
   static getCommands(): Discord.Collection<string, ICommand> {
     const commands = new Discord.Collection<string, ICommand>();

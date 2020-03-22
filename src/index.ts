@@ -28,7 +28,10 @@ client.on('message', async (message) => {
     .split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if (!commands.has(command)) return;
+  if (!commands.has(command)) {
+    Logger.info('no-command', null, { command });
+    return message.reply(`Sorry, there is no ${command} command available.`);
+  }
 
   try {
     commands.get(command).execute(message, args, models);
