@@ -19,7 +19,8 @@
         "alias": {
           "~models": "./src/models",
           "~storage": "./src/storage",
-          "~typings": "./src/typings"
+          "~typings": "./src/typings",
+          "~tests": "./src/__tests__"
         },
         "root": ["./src"],
         "extensions": [".js", ".ts"]

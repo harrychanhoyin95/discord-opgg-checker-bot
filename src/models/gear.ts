@@ -2,7 +2,8 @@ import { User } from 'discord.js';
 import { IStorage } from '~typings/i-typings';
 import { Champion, ChampionsModel } from './champion';
 
-const pixYouTube = 'https://www.youtube.com/channel/UCyX_gEJaKTszr8XSnv3Wr1Q';
+export const pixYouTube =
+  'https://www.youtube.com/channel/UCyX_gEJaKTszr8XSnv3Wr1Q';
 
 export class GearModel {
   constructor(
@@ -45,7 +46,7 @@ export class GearModel {
   }
 
   // Parse message by message type
-  private parseMessage(
+  parseMessage(
     messageType: string,
     champion?: Champion,
     version?: string,

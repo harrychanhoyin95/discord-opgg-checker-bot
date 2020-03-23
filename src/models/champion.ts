@@ -14,6 +14,15 @@ export interface Champion {
   };
 }
 
+interface ChampionsResponse {
+  type: string;
+  format: string;
+  version: string;
+  data: {
+    [key: string]: Champion;
+  };
+}
+
 export class ChampionsModel {
   constructor(private storage: IStorage) {
     this.storage = storage;
@@ -26,16 +35,17 @@ export class ChampionsModel {
       const championResponse = await fetch(
         `${this.storage.config.ddragon.cdnUrl}/${latestVersion}/data/en_US/champion.json`,
       );
-      const champions = await championResponse.json();
 
-      if (!champions.data || champions.data.length === 0) return [];
-      const { data }: { data: Champion[] } = champions;
+      const champions: ChampionsResponse = await championResponse.json();
+
+      if (!champions?.data) return [];
+      const { data } = champions;
 
       return Object.values(data).filter((champion) => {
         return champion.id.toLowerCase().startsWith(message);
       });
     } catch (err) {
-      Logger.error('gen-champions-error', err, author, { message });
+      Logger.error('gen-champions-error', err.stack, author, { message });
     }
   }
 
@@ -45,7 +55,9 @@ export class ChampionsModel {
       const lolVersionListResponse = await fetch(
         `${this.storage.config.ddragon.apiUrl}/versions.json`,
       );
-      const lolVersionList = await lolVersionListResponse.json();
+      const lolVersionList: {
+        data: string[];
+      } = await lolVersionListResponse.json();
       return (
         (lolVersionList.data &&
           lolVersionList.data.length > 0 &&
@@ -53,7 +65,7 @@ export class ChampionsModel {
         fallBackVersion
       );
     } catch (err) {
-      Logger.error('get-latest-version-error', err, null);
+      Logger.error('get-latest-version-error', err.stack, null);
     }
   }
 }

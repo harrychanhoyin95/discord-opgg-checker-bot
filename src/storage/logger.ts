@@ -38,7 +38,7 @@ export class Logger {
   // Logs error
   static error(
     message: string,
-    errorStack?: object,
+    errorStack?: string,
     author?: User,
     extraFields?: object,
   ): void {
@@ -50,7 +50,7 @@ export class Logger {
 
   // Merge author, error and custom properties for logger to print as 'rest'
   static mergeLoggerObjects(
-    errorStack: object,
+    errorStack: string,
     author: User,
     extraFields: object,
   ): null | object {
