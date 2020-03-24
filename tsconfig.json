@@ -18,6 +18,7 @@
       "~/*": ["*"],
       "~models/*": ["models/*"],
       "~storage/*": ["storage/*"],
+      "~commands/*": ["commands/*"],
       "~typings/*": ["typings/*"],
       "~tests/*": ["__tests__/*"]
     }

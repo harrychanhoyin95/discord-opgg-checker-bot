@@ -19,6 +19,7 @@
         "alias": {
           "~models": "./src/models",
           "~storage": "./src/storage",
+          "~commands": "./src/commands",
           "~typings": "./src/typings",
           "~tests": "./src/__tests__"
         },
