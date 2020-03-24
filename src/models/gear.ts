@@ -71,6 +71,8 @@ export class GearModel {
           embed: {
             color: 3447003,
             title: `${champion.name} - ${champion.title}`,
+            // OP.GG requires champion name without any special characters
+            // Eg. Lee Sin => leesin, Cho'Gath => chogath
             url: this.storage.config.opGG.statUrl(champion.id.toLowerCase()),
             description: `睇下${champion.name}點出裝啦`,
             thumbnail: {
