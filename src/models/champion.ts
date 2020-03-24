@@ -38,7 +38,7 @@ export class ChampionsModel {
 
       const champions: ChampionsResponse = await championResponse.json();
 
-      if (!champions?.data) return [];
+      if (!champions || !champions.data) return [];
       const { data } = champions;
 
       return Object.values(data).filter((champion) => {

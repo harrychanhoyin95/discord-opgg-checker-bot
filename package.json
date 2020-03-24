@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "parcel src/index.ts --target node",
+    "dev": "yarn build:clean && parcel src/index.ts --target node",
     "build": "parcel build src/index.ts --out-dir dist --target node",
+    "build:clean": "rm -rf .cache",
     "test": "jest --forceExit --verbose --maxWorkers=1",
     "others": "=================================================================",
     "lint": "eslint src/**/*.{js,ts} --quiet",
@@ -36,6 +37,7 @@
     "jest": "25.1.0",
     "jest-fetch-mock": "3.0.3",
     "parcel-bundler": "^1.12.4",
+    "parcel-plugin-clean-easy": "1.0.2",
     "parcel-plugin-run-server": "^1.1.2",
     "parcel-plugin-static-files-copy": "^2.3.1",
     "ts-jest": "25.2.1",
@@ -106,5 +108,8 @@
       }
     ],
     "watcherGlob": "**"
-  }
+  },
+  "parcelCleanPaths": [
+    "dist"
+  ]
 }

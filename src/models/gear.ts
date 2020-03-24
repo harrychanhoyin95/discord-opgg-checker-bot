@@ -38,7 +38,7 @@ export class GearModel {
       return this.parseMessage('found', matchedChampion, latestVersion);
     } else {
       const possibleChampions = champions.map(
-        (champion, index) => `${index + 1}. ${champion.name}`,
+        (champion, index) => `${index + 1}. ${champion.id}`,
       );
       const firstPart = this.parseMessage('multiple');
       return `${firstPart}${possibleChampions.join('\n')}`;
@@ -71,7 +71,7 @@ export class GearModel {
           embed: {
             color: 3447003,
             title: `${champion.name} - ${champion.title}`,
-            url: this.storage.config.opGG.statUrl(champion.name.toLowerCase()),
+            url: this.storage.config.opGG.statUrl(champion.id.toLowerCase()),
             description: `睇下${champion.name}點出裝啦`,
             thumbnail: {
               url: `${this.storage.config.ddragon.cdnUrl}/${version}/img/champion/${champion.image.full}`,
