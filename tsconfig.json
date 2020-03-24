@@ -10,7 +10,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
-    "isolatedModules": true,
     "declaration": false,
     "typeRoots": ["node_modules/@types"],
     "baseUrl": "./src",
@@ -19,7 +18,9 @@
       "~/*": ["*"],
       "~models/*": ["models/*"],
       "~storage/*": ["storage/*"],
-      "~typings/*": ["typings/*"]
+      "~commands/*": ["commands/*"],
+      "~typings/*": ["typings/*"],
+      "~tests/*": ["__tests__/*"]
     }
   },
   "include": ["src/**/*"],

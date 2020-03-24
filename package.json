@@ -5,13 +5,15 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "start:watch": "parcel src/index.ts --target node",
+    "dev": "parcel src/index.ts --target node",
     "build": "parcel build src/index.ts --out-dir dist --target node",
+    "test": "jest --forceExit --verbose --maxWorkers=1",
     "others": "=================================================================",
     "lint": "eslint src/**/*.{js,ts} --quiet",
     "lint:fix": "eslint src/**/*.{js,ts} --fix",
     "tsc": "tsc --noEmit --skipLibCheck",
-    "prettier": "prettier --check **/*.ts **/*.json"
+    "prettier": "prettier --check **/*.ts **/*.json",
+    "clean": "rm -rf node_modules && rm -rf dist && yarn install"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -20,28 +22,73 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.9.0",
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-typescript": "^7.8.3",
+    "@types/jest": "25.1.4",
     "@types/node": "^13.9.2",
+    "@types/node-fetch": "2.5.5",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
+    "babel-jest": "25.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
     "husky": "^4.2.3",
+    "jest": "25.1.0",
+    "jest-fetch-mock": "3.0.3",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-run-server": "^1.1.2",
     "parcel-plugin-static-files-copy": "^2.3.1",
+    "ts-jest": "25.2.1",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
     "discord.js": "^12.0.2",
     "dotenv": "^8.2.0",
+    "json-stable-stringify": "1.0.1",
     "node-fetch": "^2.6.0",
     "winston": "^3.2.1"
   },
   "engines": {
     "node": "12.16.x"
+  },
+  "jest": {
+    "automock": false,
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/__tests__/setupFramework.ts"
+    ],
+    "setupFiles": [
+      "<rootDir>/src/__tests__/setup.ts"
+    ],
+    "testEnvironment": "node",
+    "testRegex": "(spec|test)\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ],
+    "coverageDirectory": "./coverage/",
+    "moduleNameMapper": {
+      "^~models/(.*)": "<rootDir>/src/models/$1",
+      "^~storage/(.*)": "<rootDir>/src/storage/$1",
+      "^~typings/(.*)": "<rootDir>/src/typings/$1",
+      "^~test/(.*)": "<rootDir>/src/__tests__/$1"
+    },
+    "coverageThreshold": {
+      "global": {
+        "functions": 70,
+        "lines": 70,
+        "statements": 70
+      }
+    },
+    "collectCoverageFrom": [
+      "src/models/**/*.ts",
+      "src/storage/**/*.ts",
+      "!**/__tests__/**"
+    ]
   },
   "husky": {
     "hooks": {

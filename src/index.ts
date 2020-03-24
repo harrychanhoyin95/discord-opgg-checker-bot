@@ -45,4 +45,4 @@ client.on('message', async (message) => {
 client
   .login(process.env.CLIENT_TOKEN)
   .then(() => Logger.info('login-successfully', client.user))
-  .catch((err) => Logger.error('login-failed', err));
+  .catch((err) => Logger.error('login-failed', err.stack));
