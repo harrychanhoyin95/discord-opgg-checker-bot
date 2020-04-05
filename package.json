@@ -11,8 +11,8 @@
     "build:clean": "rm -rf .cache",
     "test": "jest --forceExit --verbose --maxWorkers=1",
     "others": "=================================================================",
-    "lint": "eslint src/**/*.{js,ts} --quiet",
-    "lint:fix": "eslint src/**/*.{js,ts} --fix",
+    "lint": "eslint 'src/**/*.{js,ts}' --quiet",
+    "lint:fix": "eslint 'src/**/*.{js,ts}' --fix",
     "tsc": "tsc --noEmit --skipLibCheck",
     "prettier": "prettier --check **/*.ts **/*.json",
     "clean": "rm -rf node_modules && rm -rf dist && yarn install"
