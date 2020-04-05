@@ -4,15 +4,15 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/index.  ",
+    "start": "node dist/index.js",
     "dev": "yarn build:clean && parcel src/index.ts --target node",
     "build": "yarn build:clean && yarn build:prod",
     "build:prod": "parcel build src/index.ts --out-dir dist --target node",
     "build:clean": "rm -rf .cache",
     "test": "jest --forceExit --verbose --maxWorkers=1",
     "others": "=================================================================",
-    "lint": "eslint src/**/*.{ts} --quiet",
-    "lint:fix": "eslint src/**/*.{ts} --fix",
+    "lint": "eslint src/**/*.{js,ts} --quiet",
+    "lint:fix": "eslint src/**/*.{js,ts} --fix",
     "tsc": "tsc --noEmit --skipLibCheck",
     "prettier": "prettier --check **/*.ts **/*.json",
     "clean": "rm -rf node_modules && rm -rf dist && yarn install"
