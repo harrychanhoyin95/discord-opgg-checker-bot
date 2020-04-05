@@ -1,3 +1,4 @@
+import { Database } from '~storage/database';
 import { Logger } from '~storage/logger';
 import { IStorage } from '~typings/i-typings';
 
@@ -15,6 +16,8 @@ export class StorageBuilder {
     Logger.init().then(() => {
       Logger.info('Initialized Logger');
     });
+
+    Database.init();
 
     return {
       ...storage,
