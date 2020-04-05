@@ -14,7 +14,7 @@ export class Models {
     // Inject dependencies to each model as needed
     const champions = new ChampionsModel(storage);
     const gear = new GearModel(storage, champions);
-    const player = new PlayerModel(storage);
+    const player = new PlayerModel();
 
     return {
       champions,
