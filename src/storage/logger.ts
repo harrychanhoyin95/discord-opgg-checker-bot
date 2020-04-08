@@ -9,7 +9,7 @@ export class Logger {
   private static logger: winston.Logger;
 
   // Initialize the logger
-  static async init(): Promise<boolean> {
+  static async init(): Promise<void> {
     this.logger = createLogger({});
     const customFormat = printf(
       ({ level, message, timestamp, ...rest }) =>
@@ -24,7 +24,7 @@ export class Logger {
     this.logger.add(consoleTransport);
     this.logger.exceptions.handle(consoleTransport);
 
-    return true;
+    Logger.info('Initialized Logger');
   }
 
   // Logs general info

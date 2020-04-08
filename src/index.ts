@@ -4,17 +4,19 @@ import { Shared } from '~models/_shared/_shared_models';
 import { Logger } from '~storage/logger';
 import { StorageBuilder } from '~storage/storage-builder';
 import config from './config';
+import { IStorage } from './typings/i-typings';
 
 require('dotenv').config();
 
 let models: IModels;
-const storage = StorageBuilder.getStorage(config);
+let globalStorage: IStorage;
+StorageBuilder.getStorage(config).then((storage) => (globalStorage = storage));
 const commands = Shared.commands.getCommands();
 const client = new Discord.Client();
 
 client.once('ready', () => {
   // Setup models with storage configs
-  models = Models.getModels(storage);
+  models = Models.getModels(globalStorage);
   Logger.info(`Logged in as ${client.user.tag}!`);
 });
 
@@ -44,5 +46,5 @@ client.on('message', async (message) => {
 
 client
   .login(process.env.CLIENT_TOKEN)
-  .then(() => Logger.info('login-successfully', client.user))
+  .then(() => Logger.info('login-successfully'))
   .catch((err) => Logger.error('login-failed', err.stack));
