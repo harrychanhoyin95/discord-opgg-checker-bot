@@ -1,4 +1,4 @@
-import { MongoClient } from '~/storage/mongo-client';
+import { Database } from '~storage/database';
 import { Logger } from '~storage/logger';
 import { IStorage } from '~typings/i-typings';
 
@@ -8,14 +8,16 @@ import { IStorage } from '~typings/i-typings';
  * @class StorageBuilder
  */
 export class StorageBuilder {
-  static async getStorage(config): Promise<IStorage> {
+  static getStorage(config): IStorage {
     const storage: any = {};
 
     storage.config = config;
 
-    await Logger.init();
+    Logger.init().then(() => {
+      Logger.info('Initialized Logger');
+    });
 
-    await MongoClient.init();
+    Database.init();
 
     return {
       ...storage,
